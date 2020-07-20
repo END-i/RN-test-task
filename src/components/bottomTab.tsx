@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
+
+import { BottomTabProps } from '../common/types';
 
 const Wrapper = styled(View)`
   flex-direction: row;
@@ -12,22 +14,12 @@ const Button = styled(TouchableOpacity)`
   padding-top: 10px;
   background-color: #cef0fd;
 `;
-const ButtonText = styled(Text)`
-  color: ${({ isFocused }) => (isFocused ? '#000' : '#888')};
-`;
 
-export default function ({ state, descriptors, navigation }) {
+export default function ({ state, descriptors, navigation }: BottomTabProps) {
   return (
     <Wrapper>
-      {state.routes.map((route, index) => {
+      {state.routes.map((route: any, index: string) => {
         const { options } = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : route.name;
-
         const isFocused = state.index === index;
 
         const onPress = () => {
@@ -41,25 +33,14 @@ export default function ({ state, descriptors, navigation }) {
           }
         };
 
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key,
-          });
-        };
-
         return (
           <Button
             key={index}
             accessibilityRole="button"
-            accessibilityStates={isFocused ? ['selected'] : []}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
-            onLongPress={onLongPress}
-          >
-            <ButtonText isFocused={isFocused}>{label}</ButtonText>
-          </Button>
+          />
         );
       })}
     </Wrapper>

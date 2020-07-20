@@ -2,7 +2,9 @@ import React from 'react';
 import { TextInput, Text, View } from 'react-native';
 import styled from 'styled-components/native';
 
-const Input = styled(TextInput)`
+import { IInputStyledProps } from '../common/types';
+
+const Input = styled(TextInput)<IInputStyledProps>`
   background: #fff;
   color: #000;
   border-color: ${({ error }) => (error ? '#f7737380' : '#ccc')};
@@ -25,7 +27,7 @@ const InputWrapper = styled(View)`
   width: 80%;
 `;
 
-export default function ({ error = '', type = 'text', ...rest }) {
+export default function ({ error = '', ...rest }) {
   return (
     <InputWrapper>
       <Input error={error} {...rest} />

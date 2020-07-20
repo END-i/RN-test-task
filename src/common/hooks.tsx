@@ -1,30 +1,34 @@
 import { useEffect, useState } from 'react';
 
-export const useForm = ({ initialValues, onSubmit }) => {
+import { UseFormProps } from './types';
+
+export const useForm = ({ initialValues, onSubmit }: UseFormProps) => {
   const [values, setValues] = useState(initialValues);
-  const [errors, setErrors] = useState({});
-  const [touched, setTouched] = useState({});
-  const [onSubmitting, setOnSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [touched, setTouched] = useState<{ [key: string]: boolean }>({});
+  const [onSubmitting, setOnSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     setTouched({});
     setOnSubmitting(false);
     setValues(initialValues);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    for (let i in values) {
-      const value = values[i];
-      const error = validation(i, value);
-      setErrors((prev) => {
-        if ((!error && prev[i]) || !error) {
-          const newPrev = { ...prev };
-          delete newPrev[i];
-          return newPrev;
-        }
-        return { ...prev, [i]: error };
-      });
+    let i: string;
+    for (i in values) {
+      if (values[i]) {
+        const value = values[i];
+        const error: string | undefined = validation(i, value);
+        setErrors((prev) => {
+          if ((!error && prev[i]) || !error) {
+            const newPrev: any = { ...prev };
+            delete newPrev[i];
+            return newPrev;
+          }
+          return { ...prev, [i]: error };
+        });
+      }
     }
   }, [values]);
 
@@ -32,16 +36,16 @@ export const useForm = ({ initialValues, onSubmit }) => {
     setOnSubmitting(!Object.keys(errors).length);
   }, [errors, touched]);
 
-  const handleChange = (name, value) => {
+  const handleChange = (name: string, value: string) => {
     setValues({ ...values, [name]: value.replace(/\s+/g, ' ').trim() });
   };
 
-  const handleBlur = (name) => {
+  const handleBlur = (name: string) => {
     setTouched({ ...touched, [name]: true });
   };
 
   const handleSubmit = () => {
-    const touchedField = {};
+    const touchedField: { [key: string]: boolean } = {};
     for (let i in initialValues) {
       touchedField[i] = true;
     }
@@ -63,8 +67,13 @@ export const useForm = ({ initialValues, onSubmit }) => {
   };
 };
 
-export const validation = (name, value) => {
-  const rules = {
+export const validation = (name: string, value: string) => {
+  const rules: {
+    [key: string]: {
+      message: string;
+      regex: RegExp;
+    }[];
+  } = {
     username: [
       { message: 'Name is too short', regex: /^.{2,}$/g },
       { message: 'Name is too long', regex: /^.{2,128}$/g },

@@ -1,27 +1,13 @@
 import { Navigation } from 'react-native-navigation';
 
 import { Profile, News } from './screens';
+import { TopBarSwitch } from './components';
 
 console.disableYellowBox = true;
 
 Navigation.registerComponent('Profile', () => Profile);
 Navigation.registerComponent('News', () => News);
-
-Navigation.setDefaultOptions({
-  topBar: {
-    background: {
-      color: '#cef0fd',
-    },
-  },
-  bottomTab: {
-    fontSize: 20,
-    selectedFontSize: 20,
-    textColor: 'rgb(50, 50, 50)',
-  },
-  bottomTabs: {
-    backgroundColor: '#cef0fd',
-  },
-});
+Navigation.registerComponent('TopBarSwitch', () => TopBarSwitch);
 
 Navigation.events().registerAppLaunchedListener(async () => {
   Navigation.setRoot({
@@ -36,13 +22,11 @@ Navigation.events().registerAppLaunchedListener(async () => {
                     name: 'Profile',
                     options: {
                       topBar: {
-                        title: {
-                          text: 'Blog',
-                        },
+                        visible: false,
                       },
                       bottomTab: {
                         text: 'Home',
-                        disableIconTint: true,
+                        icon: require('./assets/images/profile.png'),
                       },
                     },
                   },
@@ -52,19 +36,29 @@ Navigation.events().registerAppLaunchedListener(async () => {
           },
           {
             stack: {
+              id: 'NewsScreen',
               children: [
                 {
                   component: {
                     name: 'News',
                     options: {
+                      bottomTab: {
+                        text: 'News',
+                        icon: require('./assets/images/news.png'),
+                      },
                       topBar: {
                         title: {
                           text: 'News',
                         },
-                      },
-                      bottomTab: {
-                        text: 'News',
-                        disableIconTint: true,
+                        rightButtons: [
+                          {
+                            id: 'TopBarSwitchId',
+                            component: {
+                              id: 'TopBarSwitchId',
+                              name: 'TopBarSwitch',
+                            },
+                          },
+                        ],
                       },
                     },
                   },

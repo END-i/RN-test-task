@@ -2,22 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 
 import { useForm } from '../../common/hooks';
+import { FormValueProps, IField } from '../../common/types';
 import { getData, storeData } from '../../common/utils';
 import { Input } from '../../components';
-import avatar from '../../assets/images/avatar.jpg';
 import { Avatar, Button, ButtonText, Field, Label, ProfileValue } from './styled.js';
+import avatar from '../../assets/images/avatar.jpg';
 
 export default function () {
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState<boolean>(false);
 
-  useEffect(async () => {
-    const data = await getData('@profile_data');
-    if (data) {
-      setValues(JSON.parse(data));
-    }
+  useEffect(() => {
+    (async () => {
+      const data = await getData('@profile_data');
+      if (data) {
+        setValues(JSON.parse(data));
+      }
+    })();
   }, []);
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: FormValueProps) => {
     storeData('@profile_data', values);
     setEdit(false);
   };
@@ -34,7 +37,7 @@ export default function () {
     onSubmit,
   });
 
-  const fields = [
+  const fields: IField[] = [
     {
       label: 'Username',
       placeholder: 'username',
@@ -51,12 +54,12 @@ export default function () {
     },
   ];
 
-  const renderField = ({ label, name, type, placeholder }) => {
+  const renderField = ({ label, name, type, placeholder }: IField) => {
     if (edit) {
       return (
         <Input
           key={name}
-          onChangeText={(text) => handleChange(name, text)}
+          onChangeText={(text: string) => handleChange(name, text)}
           onBlur={() => handleBlur(name)}
           value={values[name]}
           error={touched[name] ? errors[name] : ''}

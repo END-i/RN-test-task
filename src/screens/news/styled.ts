@@ -1,23 +1,14 @@
 import styled from 'styled-components/native';
-import { Text, View, SafeAreaView, Image } from 'react-native';
+import { Text, View, Image } from 'react-native';
 
-export const Wrapper = styled(SafeAreaView)`
-  margin-bottom: 50px;
-`;
-export const Header = styled(View)`
-  flex: 1;
-  flex-direction: row;
-  align-items: center;
-  height: 50px;
-  padding: 20px;
-  background-color: #cef0fd;
-`;
+import { ItemWrapperProps } from '../../common/types';
+
 export const Date = styled(Text)`
   color: gray;
   font-size: 12px;
   text-align: right;
 `;
-export const Img = styled(Image)`
+export const Img = styled(Image)<ItemWrapperProps>`
   ${({ isTile }) => {
     if (isTile) {
       return `
@@ -32,7 +23,7 @@ export const Img = styled(Image)`
   `;
   }}
 `;
-export const ItemWrapper = styled(View)`
+export const ItemWrapper = styled(View)<ItemWrapperProps>`
   background-color: #fff;
   padding: 20px;
   margin: 5px 10px;

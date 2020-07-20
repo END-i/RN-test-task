@@ -5,7 +5,7 @@ import { useForm } from '../../common/hooks';
 import { FormValueProps, IField } from '../../common/types';
 import { getData, storeData } from '../../common/utils';
 import { Input } from '../../components';
-import { Avatar, Button, ButtonText, Field, Label, ProfileValue } from './styled.js';
+import { Avatar, Button, ButtonText, Field, Label, ProfileValue } from './styled';
 import avatar from '../../assets/images/avatar.jpg';
 
 export default function () {

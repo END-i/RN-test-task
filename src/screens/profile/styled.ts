@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled from 'styled-components';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 
 export const Avatar = styled(Image)`

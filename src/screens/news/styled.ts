@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled from 'styled-components';
 import { Text, View, Image } from 'react-native';
 
 import { ItemWrapperProps } from '../../common/types';

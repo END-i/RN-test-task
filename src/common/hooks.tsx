@@ -15,11 +15,10 @@ export const useForm = ({ initialValues, onSubmit }: UseFormProps) => {
   }, []);
 
   useEffect(() => {
-    let i: string;
-    for (i in values) {
+    for (let i in values) {
       if (values[i]) {
         const value = values[i];
-        const error: string | undefined = validation(i, value);
+        const error = validation(i, value);
         setErrors((prev) => {
           if ((!error && prev[i]) || !error) {
             const newPrev: any = { ...prev };
@@ -97,4 +96,5 @@ export const validation = (name: string, value: string) => {
       }
     }
   }
+  return '';
 };
